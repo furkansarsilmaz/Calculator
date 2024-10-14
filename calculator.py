@@ -1,106 +1,92 @@
 from tkinter import *
+from tkinter import messagebox
+class calculator:
+    def __init__(self,root):
+        self.root = root
+        self.root.geometry("250x340")
+        self.root.title("Calculator")
+        self.root.configure(background="gray")
+        self.operation = ""
+        self.result = StringVar()
 
-def Press_Button(num):
-    global Equation_text
-    Equation_text += str(num)
-    Equation_Label.set(Equation_text)
+        self.equal_label = Label(self.root,textvariable=self.result,width=25,height=2)
+        self.equal_label.pack(pady=10)
 
-def Equal():
-    global Equation_text
-    try :
-        Total = str(eval(Equation_text))
-        Equation_Label.set(Total)
-        Equation_text = Total
-    except SyntaxError :
-        Equation_Label.set("Syntax Error..")
-        Equation_text = ""
-    except ZeroDivisionError :
-        Equation_Label.set("Arithmetic Error..")
-        Equation_text = ""
+        self.button_frame = Frame(self.root,background="gray")
+        self.button_frame.pack()
 
+        self.button_1 = Button(self.button_frame,text="1",width=5,height=3,command=lambda:self.press_button(1))
+        self.button_1.grid(row=2,column=0)
+        
+        self.button_2 = Button(self.button_frame,text="2",width=5,height=3,command=lambda:self.press_button(2))
+        self.button_2.grid(row=2,column=1)
 
+        self.button_3 = Button(self.button_frame,text="3",width=5,height=3,command=lambda:self.press_button(3))
+        self.button_3.grid(row=2,column=2)
 
-def Clear():
-    global Equation_text
-    Equation_Label.set("")
-    Equation_text = ""
+        self.button_4 = Button(self.button_frame,text="4",width=5,height=3,command=lambda:self.press_button(4))
+        self.button_4.grid(row=1,column=0)
 
-Window = Tk()
-Window.title("Calculator")
-Window.geometry("500x500")
-Window.configure(background="gray")
+        self.button_5 = Button(self.button_frame,text="5",width=5,height=3,command=lambda:self.press_button(5))
+        self.button_5.grid(row=1,column=1)
 
-# Creating Operation Line
-Equation_text = ""
-Equation_Label = StringVar()
+        self.button_6 = Button(self.button_frame,text="6",width=5,height=3,command=lambda:self.press_button(6))
+        self.button_6.grid(row=1,column=2)
 
-Label = Label(Window,
-textvariable = Equation_Label,
-font=("Arial",20),
-bg="white",
-width=24,
-height=2
-)
-Label.pack(pady=10)
+        self.button_7 = Button(self.button_frame,text="7",width=5,height=3,command=lambda:self.press_button(7))
+        self.button_7.grid(row=0,column=0)
 
-#Creating Frame for Buttons
-Frame_Button = Frame(Window,bg = "gray",width = 100,height = 60)
-Frame_Button.pack()
+        self.button_8 = Button(self.button_frame,text="8",width=5,height=3,command=lambda:self.press_button(8))
+        self.button_8.grid(row=0,column=1)
 
-# First Row of The Numbers
-Button7 = Button(Frame_Button,text = 7,height = 4,width = 9,command = lambda:Press_Button(7))
-Button7.grid(row = 0,column = 0)
+        self.button_9 = Button(self.button_frame,text="9",width=5,height=3,command=lambda:self.press_button(9))
+        self.button_9.grid(row=0,column=2)
 
-Button8 = Button(Frame_Button,text = 8,height = 4,width = 9,command = lambda: Press_Button(8))
-Button8.grid(row = 0,column = 1)
+        self.button_divide = Button(self.button_frame,text="/",width=5,height=3,command=lambda:self.press_button("/"))
+        self.button_divide.grid(row=0,column=3)
 
-Button9 = Button(Frame_Button,text = 9,height = 4,width = 9,command = lambda:Press_Button(9))
-Button9.grid(row = 0,column = 2)
+        self.button_times = Button(self.button_frame,text="*",width=5,height=3,command=lambda:self.press_button("*"))
+        self.button_times.grid(row=1,column=3)
 
-#Second Row of The Numbers
-Button4 = Button(Frame_Button,height = 4,width = 9,text = 4,command = lambda:Press_Button(4))
-Button4.grid(row = 1,column = 0)
+        self.button_minus = Button(self.button_frame,text="-",width=5,height=3,command=lambda:self.press_button("-"))
+        self.button_minus.grid(row=2,column=3)
 
-Button5 = Button(Frame_Button,text = 5,width = 9,height = 4,command = lambda: Press_Button(5))
-Button5.grid(row = 1,column = 1)
+        self.button_plus = Button(self.button_frame,text="+",width=5,height=3,command=lambda:self.press_button("+"))
+        self.button_plus.grid(row=3,column=3)
 
-Button6 = Button(Frame_Button,text = 6,width = 9,height = 4,command = lambda:Press_Button(6))
-Button6.grid(row = 1,column = 2)
+        self.button_clear = Button(self.button_frame,text="C",width=5,height=3,command=lambda:self.Clear())
+        self.button_clear.grid(row=3,column=0)
 
-#Third Row of the Numbers
-Button1 = Button(Frame_Button,text = 1,width = 9,height = 4,command = lambda:Press_Button(1))
-Button1.grid(row = 2,column= 0)
+        self.button_0 = Button(self.button_frame,text="0",width=5,height=3,command=lambda:self.press_button(0))
+        self.button_0.grid(row=3,column=1)
 
-Button2 = Button(Frame_Button,text = 2,width = 9,height = 4,command = lambda:Press_Button(2)    )
-Button2.grid(row =2,column = 1)
+        self.button_point = Button(self.button_frame,text=".",width=5,height=3,command=lambda:self.press_button("."))
+        self.button_point.grid(row=3,column=2)
 
-Button3 = Button(Frame_Button,text = 3,width = 9,height = 4,command = lambda:Press_Button(3))
-Button3.grid(row = 2,column = 2)
+        self.button_equal = Button(self.button_frame,text="=",width=5,height=3,command=lambda:self.equal())
+        self.button_equal.grid(row=4,column=0)
 
-Button_Clear = Button(Frame_Button,text = "Clear",height = 4,width = 9,command = lambda: Clear())
-Button_Clear.grid(row =3,column=0)
+    def equal(self):
+        try:
+            total = str(eval(self.operation))
+            self.result.set(total)
+            self.operation = total
+        except SyntaxError:
+            messagebox.showerror("Error","Syntax Error !!")
+            self.operation = ""
+        except ZeroDivisionError:
+            messagebox.showerror("Error","Zero Division Error !!")
+            self.operation = ""
 
-#Operation Column
-Button_Divide = Button(Frame_Button,text = "/",height = 4,width = 9,command= lambda:Press_Button("/"))
-Button_Divide.grid(row = 0,column =3 )
+    def press_button(self,num):
+        self.operation += str(num)
+        self.result.set(self.operation)
 
-Button_Times = Button(Frame_Button,text="*",height = 4,width = 9,command= lambda:Press_Button("*"))
-Button_Times.grid(row =1,column =3)
+    def Clear(self):
+        self.operation = ""
+        self.result.set("")
 
-Button_Minus = Button(Frame_Button,text = "-",height = 4,width = 9,command = lambda: Press_Button("-") )
-Button_Minus.grid(row = 2,column = 3)
-
-Button_Plus = Button(Frame_Button,text= "+" ,height= 4,width= 9,command = lambda: Press_Button("+"),)
-Button_Plus.grid(row =3,column =3)
-
-Button0 = Button(Frame_Button,text = 0,height= 4,width= 9,command = lambda: Press_Button(0))
-Button0.grid(row =3,column =1)
-
-Button_Point = Button(Frame_Button,text= ".",height= 4,width= 9,command = lambda: Press_Button("."))
-Button_Point.grid(row =3,column=2)
-
-Button_Equal = Button(Frame_Button,text = "=",height = 4,width = 9,command = lambda: Equal())
-Button_Equal.grid(row = 4,column =0)
-
-Window.mainloop()
-
+if __name__ == "__main__":
+    root = Tk()
+    calculator(root)
+    root.mainloop()
